@@ -9,9 +9,9 @@
 
 ---
 
-## 📑 Section 1: Opening (Slide 1-8) — 09:00-09:15
+## 📑 Section 1: Opening — 09:00-09:15
 
-### Slide 1: Title
+### Title
 **Coding Thailand 2026 — Edge AI Workshop**
 *Arduino UNO Q × Modulino × Edge Impulse*
 
@@ -21,7 +21,7 @@
 
 ---
 
-### Slide 2: Welcome & House Rules
+### Welcome & House Rules
 
 ```
 Welcome! 🎉
@@ -35,7 +35,7 @@ Welcome! 🎉
 
 ---
 
-### Slide 3: What is Edge AI?
+### What is Edge AI?
 
 ```
 Cloud AI 🌥️        →    Edge AI ⚡
@@ -50,7 +50,7 @@ Privacy?               Privacy ✓
 
 ---
 
-### Slide 4: Why Arduino UNO Q?
+### Why Arduino UNO Q?
 
 ```
 UNO Q = สองสมองในบอร์ดเดียว
@@ -64,7 +64,7 @@ UNO Q = สองสมองในบอร์ดเดียว
 
 ---
 
-### Slide 5: Modulino — Plug & Play
+### Modulino — Plug & Play
 
 ```
 🔌 Qwiic connector — เสียบแล้วใช้ได้เลย
@@ -81,7 +81,7 @@ Outputs: Pixels, Buzzer, LED Matrix, Vibro
 
 ---
 
-### Slide 6: Edge Impulse — The ML Platform
+### Edge Impulse — The ML Platform
 
 ```
 Pipeline ใน 4 ขั้นตอน:
@@ -96,7 +96,7 @@ Pipeline ใน 4 ขั้นตอน:
 
 ---
 
-### Slide 7: Today's Goal
+### Today's Goal
 
 ```
 จบวันนี้ ทีมจะมี:
@@ -110,7 +110,7 @@ Pipeline ใน 4 ขั้นตอน:
 
 ---
 
-### Slide 8: 30-Point Skill Assessment
+### 30-Point Skill Assessment
 
 ```
 ประเมินตลอดวัน ที่ GitHub history คือหลักฐาน
@@ -128,9 +128,9 @@ Total                      30 pts
 
 ---
 
-## 📑 Section 2: Anchor Demo (Slide 9-12) — 09:15-09:30
+## 📑 Section 2: Anchor Demo — 09:15-09:30
 
-### Slide 9: Demo Setup — "Gesture Wand"
+### Demo Setup — "Gesture Wand"
 
 ```
 🪄 โจทย์: จำแนกท่าทางมือ
@@ -148,7 +148,7 @@ Output: Modulino Pixels (สีตามคลาส)
 
 ---
 
-### Slide 10: Demo Step-by-Step (สำรองถ้า demo พัง)
+### Demo Step-by-Step (สำรองถ้า demo พัง)
 
 ```
 1. ต่อ Modulino Movement → UNO Q (Qwiic)
@@ -163,7 +163,7 @@ Output: Modulino Pixels (สีตามคลาส)
 
 ---
 
-### Slide 11: Pipeline Summary
+### Pipeline Summary
 
 ```
 ไม่ว่า track ไหน — Pipeline เดียวกัน:
@@ -178,7 +178,7 @@ Output: Modulino Pixels (สีตามคลาส)
 
 ---
 
-### Slide 12: Q&A Break
+### Q&A Break
 
 ```
 มีคำถามตอนนี้ก่อนเริ่ม hands-on?
@@ -188,9 +188,9 @@ Output: Modulino Pixels (สีตามคลาส)
 
 ---
 
-## 📑 Section 3: Setup Block (Slide 13-15) — 09:30-10:00
+## 📑 Section 3: Setup Block — 09:30-10:00
 
-### Slide 13: Step 1 — Boot UNO Q
+### Step 1 — Boot UNO Q
 
 ```
 1. เสียบ USB-C เข้า UNO Q
@@ -202,7 +202,7 @@ Output: Modulino Pixels (สีตามคลาส)
 
 ---
 
-### Slide 14: Step 2 — Connect Modulino
+### Step 2 — Connect Modulino
 
 ```
 ⚠️ Qwiic polarized — เสียบผิดด้านเสียบไม่ได้
@@ -216,7 +216,7 @@ UNO Q → Movement → Pixels → Buzzer
 
 ---
 
-### Slide 15: Step 3 — GitHub + Edge Impulse Setup
+### Step 3 — GitHub + Edge Impulse Setup
 
 ```
 ทีมทำพร้อมกัน:
@@ -233,9 +233,9 @@ UNO Q → Movement → Pixels → Buzzer
 
 ---
 
-## 📑 Section 4: Track Selection (Slide 16-17) — 10:00-10:30
+## 📑 Section 4: Track Selection — 10:00-10:30
 
-### Slide 16: 4 Tracks Overview
+### 4 Tracks Overview
 
 ```
 🎯 A: Motion  — Modulino Movement
@@ -249,7 +249,7 @@ UNO Q → Movement → Pixels → Buzzer
 
 ---
 
-### Slide 17: Class Design Workshop
+### Class Design Workshop
 
 ```
 ก่อนเริ่มเก็บข้อมูล ทุกทีมต้องตอบ:
@@ -266,9 +266,9 @@ UNO Q → Movement → Pixels → Buzzer
 
 ---
 
-## 📑 Section 5: Bias Awareness (Slide 18-19) — แทรกตอน data collection
+## 📑 Section 5: Bias Awareness — แทรกตอน data collection
 
-### Slide 18: AI Bias — เรื่องที่ต้องระวัง
+### AI Bias — เรื่องที่ต้องระวัง
 
 ```
 ถ้าเก็บข้อมูล...
@@ -284,7 +284,7 @@ AI จะเรียนรู้: "แสง = ตัวแยกคลาส"
 
 ---
 
-### Slide 19: Bias-Free Data Collection
+### Bias-Free Data Collection
 
 ```
 หลักการ:
@@ -297,9 +297,9 @@ AI จะเรียนรู้: "แสง = ตัวแยกคลาส"
 
 ---
 
-## 📑 Section 6: Training (Slide 20-22) — 13:00-14:00
+## 📑 Section 6: Training — 13:00-14:00
 
-### Slide 20: Edge Impulse Settings
+### Edge Impulse Settings
 
 ```
 สำหรับ UNO Q:
@@ -315,7 +315,7 @@ AI จะเรียนรู้: "แสง = ตัวแยกคลาส"
 
 ---
 
-### Slide 21: อ่าน Confusion Matrix
+### อ่าน Confusion Matrix
 
 ```
               Predicted
@@ -330,7 +330,7 @@ Actual  A   [40]   3    7    ← class A 80% accuracy
 
 ---
 
-### Slide 22: Deploy to UNO Q
+### Deploy to UNO Q
 
 ```
 ใน Edge Impulse:
@@ -346,9 +346,9 @@ Test: ทดลอง inference จริง!
 
 ---
 
-## 📑 Section 7: Iteration (Slide 23-24) — 14:00-15:30
+## 📑 Section 7: Iteration — 14:00-15:30
 
-### Slide 23: 10-Case Testing
+### 10-Case Testing
 
 ```
 ทุกทีมต้องทดสอบ ≥10 cases
@@ -365,7 +365,7 @@ Test: ทดลอง inference จริง!
 
 ---
 
-### Slide 24: V1 → V2 Improvement
+### V1 → V2 Improvement
 
 ```
 จาก analysis:
@@ -382,9 +382,9 @@ Train V2 → Test → เปรียบเทียบ
 
 ---
 
-## 📑 Section 8: Wrap Up (Slide 25) — 16:00-16:30
+## 📑 Section 8: Wrap Up — 16:00-16:30
 
-### Slide 25: Day 1 Closing
+### Day 1 Closing
 
 ```
 🎉 จบ Day 1!
