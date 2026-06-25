@@ -22,7 +22,7 @@
 ## รันบนบอร์ด
 - [ ] วิธีรัน: [ ✅] กล้อง/ไมค์ → `edge-impulse-linux-runner` (Web UI :4912)  [ ] Modulino → Arduino library ในสเก็ตช์
 - [ ] ป้อน input จริงแล้ว prediction เปลี่ยนตาม (inferencing time: 128 ms)
-- คลิป/รูปตอนรัน: ![run](../assets/run.jpg)
+- คลิป/รูปตอนรัน: ![cb5eff11623c0fd43a17af1422f08362.jpeg](team-template/assets/cb5eff11623c0fd43a17af1422f08362.jpeg)
 
 ## (ต่อยอด) Output logic
 - threshold ที่ใช้: confidence ≥ ____
