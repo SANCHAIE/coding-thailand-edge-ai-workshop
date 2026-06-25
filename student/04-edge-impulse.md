@@ -55,10 +55,10 @@ Edge Impulse คือเว็บที่ช่วยเราเทรน AI 
 ```bash
 # 1) ติดตั้ง Edge Impulse CLI (ตั้งครั้งแรกครั้งเดียว ~5-10 นาที)
 curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
-sudo apt install -y nodejs sox gstreamer1.0-tools \
+sudo apt install -y build-essential python3 nodejs sox gstreamer1.0-tools \
   gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-base-apps
 sudo npm install edge-impulse-linux -g --unsafe-perm   # กล้อง/ไมค์ + runner
-sudo npm install edge-impulse-cli -g --unsafe-perm     # data-forwarder/uploader (Modulino)
+sudo npm install edge-impulse-cli -g --unsafe-perm     # data-forwarder/uploader (Modulino) — ต้องมี python3+build-essential
 
 # 2) เช็กว่าเห็นอุปกรณ์ก่อน
 ls /dev/video*   # กล้อง

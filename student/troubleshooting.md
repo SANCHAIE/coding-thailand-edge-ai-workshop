@@ -36,7 +36,7 @@ nano run.sh
 วางสคริปต์นี้:
 ```bash
 curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
-sudo apt install -y gcc g++ make build-essential nodejs sox \
+sudo apt install -y gcc g++ make build-essential python3 nodejs sox \
   gstreamer1.0-tools gstreamer1.0-plugins-good \
   gstreamer1.0-plugins-base gstreamer1.0-plugins-base-apps
 sudo npm install edge-impulse-linux -g --unsafe-perm
@@ -50,6 +50,10 @@ arecord -l
 > ⚠️ **`edge-impulse-data-forwarder: command not found`** (ใช้กับ Modulino sensor)
 > มันอยู่ในแพ็กเกจ **`edge-impulse-cli`** ไม่ใช่ `edge-impulse-linux` → ลงเพิ่ม:
 > `sudo npm install edge-impulse-cli -g --unsafe-perm`
+>
+> ⚠️ ลง `edge-impulse-cli` แล้ว error **`gyp ERR! find Python`** / `@serialport/bindings`?
+> ขาด python3 + build tools → `sudo apt install -y python3 build-essential` แล้วลง cli ใหม่
+> ยังไม่หาย → `sudo npm config set python python3 -g` แล้วลองอีกที
 
 ## ✨ ทำก่อนเรียกพี่เลี้ยง
 
