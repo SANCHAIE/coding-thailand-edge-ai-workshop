@@ -10,7 +10,7 @@
 
 | Input | ต่อผ่าน? | หลักฐาน |
 |---|---|---|
-| 1. Modulino sensor (Qwiic) | [✅] | ![Modulion sensor](../assets/[sensor.jpg](https://github.com/Sarunyaphong/coding-thailand-edge-aiworkshop/tree/99dbdd5a467ffbce8b624f918ade72965d0e8969/New%20folder%20(2)/Modulino%20sensor)) |
+| 1. Modulino sensor (Qwiic) | [✅] | ![Modulino sensor](https://raw.githubusercontent.com/Sarunyaphong/coding-thailand-edge-aiworkshop/main/assets/sensor.jpg) |
 | 2. USB Webcam | [✅] | ![camera](../assets/camera.jpg) |
 | 3. USB Mic | [ ] | ![mic](../assets/mic.jpg) |
 
