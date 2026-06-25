@@ -37,9 +37,9 @@
 
 ## 4️⃣ Solution — แก้ด้วยอะไร
 
-- **Input ที่ใช้:** กล้อง(จับท่ทาง) (Modulino ตัวไหน / กล้อง / ไมค์)
+- **Input ที่ใช้:** กล้อง(จับท่าทาง)
 - **Class ที่ AI แยก:** Stand,Faith
-- **Output ตอบสนอง:** Buzzer (Pixels / Buzzer / จอ / log)
+- **Output ตอบสนอง:** Buzzer
 
 ---
 
