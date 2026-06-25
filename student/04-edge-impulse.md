@@ -72,22 +72,47 @@ edge-impulse-linux
 
 ### 2B. ถ้าเลือก Modulino sensor (ฝั่ง MCU)
 
-Modulino อยู่ฝั่ง MCU ส่งตรงเข้า Studio แบบกล้องไม่ได้ — ต้อง "ส่งต่อ" ค่าจาก MCU → Linux → Studio ด้วย **data-forwarder**:
+Modulino อยู่ฝั่ง MCU ส่งตรงเข้า Studio แบบกล้องไม่ได้ — ต้อง "ส่งต่อ" ค่าจาก MCU → Linux → Studio ด้วย **`edge-impulse-data-forwarder`**
 
-1. รันสเก็ตช์บน MCU ที่ print ค่าเซนเซอร์เป็นตัวเลขคั่นจุลภาค **ต่อบรรทัด อัตราคงที่** (ดัดแปลงจาก [Challenge B](examples/modulino/challenges/) — เอา header `x,y,z` ออก เหลือแต่ตัวเลข):
-   ```
-   0.02,0.98,0.10
-   0.05,0.97,0.12
-   ```
-2. บน shell ฝั่ง Linux รัน:
-   ```bash
-   edge-impulse-data-forwarder
-   ```
-   - login (ถ้ายังไม่ได้) → เลือก project ทีม
-   - มันจะถาม **frequency (Hz)** และ **ชื่อแกน** (เช่น `accX,accY,accZ`) ใส่ให้ตรงกับที่ print
-3. กลับไป Studio → **Devices** เห็นอุปกรณ์ → **Data acquisition** เก็บได้เหมือนกล้อง/ไมค์
+#### ขั้น 1 — รันสเก็ตช์บน MCU ที่ print เฉพาะตัวเลข (อัตราคงที่)
 
-> เส้นนี้ยุ่งกว่ากล้อง/ไมค์นิดนึง ติดตรงไหนเรียกพี่เลี้ยง
+App Lab → Sketch → ใช้ [collect-movement-ei](examples/modulino/collect-movement-ei/) → **Run**
+- ต้อง print เป็น **ตัวเลขล้วน คั่น comma ต่อบรรทัด ไม่มี header** · baud `115200` · อัตราคงที่
+  ```
+  0.02,0.98,0.10
+  0.05,0.97,0.12
+  ```
+
+> ⚠️ **ปิด Serial Monitor ก่อน** ไม่งั้น data-forwarder เปิด port ไม่ได้ (port ชนกัน)
+
+#### ขั้น 2 — รัน data-forwarder บน shell (`>_`)
+
+```bash
+edge-impulse-data-forwarder
+```
+มันจะถามทีละข้อ ตอบตามนี้:
+
+| ถาม | ตอบ |
+|---|---|
+| email / password | login (ครั้งแรก) |
+| project | เลือก project ทีม |
+| serial port (ถ้ามีหลายตัว) | ตัวที่เป็น MCU เช่น `/dev/ttyACM0` |
+| **frequency (Hz)** | ให้ตรงกับสเก็ตช์ (delay 10ms → ตอบ `100`) |
+| **ชื่อแกน (axis names)** | `accX,accY,accZ` |
+| device name | `team-XX-q` |
+
+เห็น `Forwarding data to Edge Impulse...` = ต่อติด
+
+#### ขั้น 3 — เก็บ data ใน Studio
+
+Studio → **Data acquisition** → เห็น device โผล่ →
+1. ตั้ง **Label** (เช่น `circle` / `shake` / `still`)
+2. ตั้งความยาว (เช่น 10 วินาที)
+3. **Start sampling** → ทำท่านั้นค้างไว้ → ทำครบทุก class (จำนวนใกล้กัน, สลับคน/ความเร็ว กัน bias)
+
+> 💡 ตั้ง Hz/แกนผิด อยากตั้งใหม่? รัน `edge-impulse-data-forwarder --clean`
+> data-forwarder ไม่เจอ port? → เช็กว่าสเก็ตช์ run อยู่ + ปิด Serial Monitor แล้ว
+> เส้นนี้ยุ่งกว่ากล้อง/ไมค์ — ติดตรงไหนเรียกพี่เลี้ยง
 
 ### ✅ Checkpoint สำคัญสุดของข้อนี้
 
