@@ -1,7 +1,7 @@
 <!-- workshop-header -->
 <img width="1347" height="127" alt="Coding Thailand 2026 header" src="https://github.com/user-attachments/assets/ba5cf267-f460-4fb0-b69b-c461ae061a3b" />
 
-# Team XX — Edge AI Workshop Day 1
+# Team 07 — Edge AI Workshop Day 1
 
 > **วิธีส่งงาน:** Fork repo นี้ → กรอกช่องด้านล่าง → commit (ดู [student/05-submit.md](../student/05-submit.md))
 > กรอกแค่ที่ขีดเส้นใต้ ขอ **ครบ** ดีกว่าสวย
