@@ -10,7 +10,7 @@
 
 | Input | ต่อผ่าน? | หลักฐาน |
 |---|---|---|
-| 1. Modulino sensor (Qwiic) | [✅] | ![Modulino sensor](../assets/sensor.jpg) |
+| 1. Modulino sensor (Qwiic) | [✅] | ![Modulino sensor](../assets/New folder (2)/Modulino sensor) |
 | 2. USB Webcam | [✅] | ![camera](../assets/camera.jpg) |
 | 3. USB Mic | [ ] | ![mic](../assets/mic.jpg) |
 
