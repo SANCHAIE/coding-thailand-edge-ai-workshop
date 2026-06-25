@@ -26,7 +26,7 @@
 - [✅ ] ต่อ input + ลอง Modulino 7 ตัว + challenges → [morning/hardware-check.md](morning/hardware-check.md)
 
 **บ่าย — เทรนจริง**
-- [ ] input ที่เลือกเทรน: _______________
+- [✅ ] input ที่เลือกเทรน: ฝาขวด,ขวดน้ำ
 - [ ] เทรน V1 + อ่าน F1/confusion matrix → [afternoon/model.md](afternoon/model.md)
 - [ ] deploy ลงบอร์ดรันได้ (รูป/คลิปใน `assets/`)
 - [ ] prediction log ≥10 cases → [afternoon/predictions.csv](afternoon/predictions.csv)
