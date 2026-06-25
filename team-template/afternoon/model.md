@@ -3,8 +3,8 @@
 
 # Afternoon — Model
 
-- **Input ที่ใช้:** _______________
-- **Classes:** _______________
+- **Input ที่ใช้:** Image
+- **Classes:** 2 class Hand/Face
 - **จำนวนตัวอย่าง/class:** _______________
 - **วิธีเชื่อมเข้า Edge Impulse:** [ ] กล้อง/ไมค์ (`edge-impulse-linux`)  [ ] Modulino (`data-forwarder`)
 
