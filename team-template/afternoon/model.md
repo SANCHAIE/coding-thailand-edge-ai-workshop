@@ -12,7 +12,7 @@
 - Accuracy (ใน Studio): 88%
 - F1 score ราย class (class : F1): Face 59% Hand 50%
 - class ที่ F1 ต่ำสุด:Hand 50%
-- รูป Confusion Matrix: ![cm-v1](../assets/cm-v1.png)
+- รูป Confusion Matrix: ![cm-v1](../Depa_image/AI/Confusion-Matrix.png)
 - อ่านแล้วเห็นอะไร (class ไหนสับสนกับ class ไหน): -
 
 ## V2 (ถ้าทัน)
@@ -22,7 +22,8 @@
 ## รันบนบอร์ด
 - [✅] วิธีรัน: [ ✅] กล้อง/ → `edge-impulse-linux-runner` (Web UI :4912)  [ ] Modulino → Arduino library ในสเก็ตช์
 - [✅] ป้อน input จริงแล้ว prediction เปลี่ยนตาม (inferencing time: 15-40 ms)
-- คลิป/รูปตอนรัน: ![run](../assets/run.jpg)
+- คลิป/รูปตอนรัน: ![run1](../Depa_image/AI/Face.jpg)
+- ![run2](../Depa_image/AI/Hand.jpg)
 
 ## (ต่อยอด) Output logic
 - threshold ที่ใช้: confidence ≥ ____
