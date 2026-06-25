@@ -73,52 +73,35 @@ edge-impulse-linux
 
 ### 2B. ถ้าเลือก Modulino sensor (ฝั่ง MCU)
 
-Modulino อยู่ฝั่ง MCU ส่งตรงเข้า Studio แบบกล้องไม่ได้ — ต้อง "ส่งต่อ" ค่าจาก MCU → Linux → Studio ด้วย **`edge-impulse-data-forwarder`**
+Modulino อยู่ฝั่ง MCU ส่งตรงเข้า Studio ไม่ได้ — เก็บ data ได้ **2 วิธี**:
+- **วิธีหลัก (แนะนำ): เก็บเป็น CSV แล้ว Upload ผ่านเว็บ** — ไม่ต้องลง CLI อะไรเพิ่ม เวิร์กชัวร์ทุกเครื่อง
+- (ขั้นสูง) live ผ่าน `edge-impulse-data-forwarder` — ต้องลง `edge-impulse-cli` + compile (มักมีปัญหาหน้างาน)
 
-#### ขั้น 1 — รันสเก็ตช์บน MCU ที่ print เฉพาะตัวเลข (อัตราคงที่)
+#### วิธีหลัก — เก็บ CSV แล้ว Upload ⭐
 
-App Lab → Sketch → ใช้ [collect-movement-ei](examples/modulino/collect-movement-ei/) → **Run**
-- ต้อง print เป็น **ตัวเลขล้วน คั่น comma ต่อบรรทัด ไม่มี header** · baud `115200` · อัตราคงที่
-  ```
-  0.02,0.98,0.10
-  0.05,0.97,0.12
-  ```
+1. App Lab → Sketch → ใช้ [Challenge B](examples/modulino/challenges/) → **Run**
+   - print เป็น `timestamp,accX,accY,accZ` (timestamp = ms) — **รูปแบบที่ EI ต้องการ**
+     ```
+     timestamp,accX,accY,accZ
+     0,0.02,0.98,0.10
+     10,0.05,0.97,0.12
+     ```
+2. เปิด **Serial Monitor** → ทำท่านั้นค้างไว้ ~10 วิ → เลือกข้อความทั้งหมด → copy → เซฟเป็นไฟล์ เช่น `circle.csv` (**1 ท่า = 1 ไฟล์**)
+3. Studio → **Data acquisition** → **Upload data** → เลือกไฟล์ → ตั้ง **Label** (= ชื่อท่า) → Upload
+   - เจอ **CSV wizard**: คอลัมน์ timestamp เป็น ms · ถ้าไฟล์ไม่มี timestamp เลือก *"set frequency"* = `100` Hz
+4. ทำครบทุก class (จำนวนไฟล์ใกล้กัน · สลับคน/ความเร็ว กัน bias)
 
-> ⚠️ **ปิด Serial Monitor ก่อน** ไม่งั้น data-forwarder เปิด port ไม่ได้ (port ชนกัน)
+> 💡 ไม่ต้องแตะ shell/CLI เลย — เก็บจากเครื่องไหนก็ได้ที่เปิด Serial Monitor
 
-#### ขั้น 2 — รัน data-forwarder บน shell (`>_`)
+#### (ขั้นสูง) live ด้วย data-forwarder
 
-```bash
-edge-impulse-data-forwarder
-```
+ส่งค่าสดเข้า Studio แทนการ upload ไฟล์ — แต่ต้องลง `edge-impulse-cli` ก่อน (+ `python3 build-essential`; ถ้า compile error ดู [troubleshooting.md](troubleshooting.md) ข้อ 3)
 
-> ⚠️ ขึ้น **`command not found`?** data-forwarder อยู่ในแพ็กเกจ `edge-impulse-cli` (คนละตัวกับ `edge-impulse-linux`) → ลงเพิ่มก่อน:
-> ```bash
-> sudo npm install edge-impulse-cli -g --unsafe-perm
-> ```
-มันจะถามทีละข้อ ตอบตามนี้:
+1. รัน [collect-movement-ei](examples/modulino/collect-movement-ei/) (print ตัวเลขล้วน ไม่มี header) → **ปิด Serial Monitor**
+2. shell (`>_`): `edge-impulse-data-forwarder` → ตอบ: project / port (`/dev/ttyACM0`) / **frequency** `100` / **axes** `accX,accY,accZ` / device name
+3. Studio → Data acquisition → ตั้ง Label → Start sampling
 
-| ถาม | ตอบ |
-|---|---|
-| email / password | login (ครั้งแรก) |
-| project | เลือก project ทีม |
-| serial port (ถ้ามีหลายตัว) | ตัวที่เป็น MCU เช่น `/dev/ttyACM0` |
-| **frequency (Hz)** | ให้ตรงกับสเก็ตช์ (delay 10ms → ตอบ `100`) |
-| **ชื่อแกน (axis names)** | `accX,accY,accZ` |
-| device name | `team-XX-q` |
-
-เห็น `Forwarding data to Edge Impulse...` = ต่อติด
-
-#### ขั้น 3 — เก็บ data ใน Studio
-
-Studio → **Data acquisition** → เห็น device โผล่ →
-1. ตั้ง **Label** (เช่น `circle` / `shake` / `still`)
-2. ตั้งความยาว (เช่น 10 วินาที)
-3. **Start sampling** → ทำท่านั้นค้างไว้ → ทำครบทุก class (จำนวนใกล้กัน, สลับคน/ความเร็ว กัน bias)
-
-> 💡 ตั้ง Hz/แกนผิด อยากตั้งใหม่? รัน `edge-impulse-data-forwarder --clean`
-> data-forwarder ไม่เจอ port? → เช็กว่าสเก็ตช์ run อยู่ + ปิด Serial Monitor แล้ว
-> เส้นนี้ยุ่งกว่ากล้อง/ไมค์ — ติดตรงไหนเรียกพี่เลี้ยง
+> ตั้งค่าผิดอยากเริ่มใหม่: `edge-impulse-data-forwarder --clean` · ไม่เจอ port → เช็กสเก็ตช์ run + ปิด Serial Monitor
 
 ### ✅ Checkpoint สำคัญสุดของข้อนี้
 
