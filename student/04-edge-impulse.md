@@ -55,9 +55,10 @@ Edge Impulse คือเว็บที่ช่วยเราเทรน AI 
 ```bash
 # 1) ติดตั้ง Edge Impulse CLI (ตั้งครั้งแรกครั้งเดียว ~5-10 นาที)
 curl -sL https://deb.nodesource.com/setup_20.x | sudo bash -
-sudo apt install -y nodejs sox gstreamer1.0-tools \
+sudo apt install -y build-essential python3 nodejs sox gstreamer1.0-tools \
   gstreamer1.0-plugins-good gstreamer1.0-plugins-base gstreamer1.0-plugins-base-apps
-sudo npm install edge-impulse-linux -g --unsafe-perm
+sudo npm install edge-impulse-linux -g --unsafe-perm   # กล้อง/ไมค์ + runner
+sudo npm install edge-impulse-cli -g --unsafe-perm     # data-forwarder/uploader (Modulino) — ต้องมี python3+build-essential
 
 # 2) เช็กว่าเห็นอุปกรณ์ก่อน
 ls /dev/video*   # กล้อง
@@ -72,22 +73,35 @@ edge-impulse-linux
 
 ### 2B. ถ้าเลือก Modulino sensor (ฝั่ง MCU)
 
-Modulino อยู่ฝั่ง MCU ส่งตรงเข้า Studio แบบกล้องไม่ได้ — ต้อง "ส่งต่อ" ค่าจาก MCU → Linux → Studio ด้วย **data-forwarder**:
+Modulino อยู่ฝั่ง MCU ส่งตรงเข้า Studio ไม่ได้ — เก็บ data ได้ **2 วิธี**:
+- **วิธีหลัก (แนะนำ): เก็บเป็น CSV แล้ว Upload ผ่านเว็บ** — ไม่ต้องลง CLI อะไรเพิ่ม เวิร์กชัวร์ทุกเครื่อง
+- (ขั้นสูง) live ผ่าน `edge-impulse-data-forwarder` — ต้องลง `edge-impulse-cli` + compile (มักมีปัญหาหน้างาน)
 
-1. รันสเก็ตช์บน MCU ที่ print ค่าเซนเซอร์เป็นตัวเลขคั่นจุลภาค **ต่อบรรทัด อัตราคงที่** (ดัดแปลงจาก [Challenge B](examples/modulino/challenges/) — เอา header `x,y,z` ออก เหลือแต่ตัวเลข):
-   ```
-   0.02,0.98,0.10
-   0.05,0.97,0.12
-   ```
-2. บน shell ฝั่ง Linux รัน:
-   ```bash
-   edge-impulse-data-forwarder
-   ```
-   - login (ถ้ายังไม่ได้) → เลือก project ทีม
-   - มันจะถาม **frequency (Hz)** และ **ชื่อแกน** (เช่น `accX,accY,accZ`) ใส่ให้ตรงกับที่ print
-3. กลับไป Studio → **Devices** เห็นอุปกรณ์ → **Data acquisition** เก็บได้เหมือนกล้อง/ไมค์
+#### วิธีหลัก — เก็บ CSV แล้ว Upload ⭐
 
-> เส้นนี้ยุ่งกว่ากล้อง/ไมค์นิดนึง ติดตรงไหนเรียกพี่เลี้ยง
+1. App Lab → Sketch → ใช้ [Challenge B](examples/modulino/challenges/) → **Run**
+   - print เป็น `timestamp,accX,accY,accZ` (timestamp = ms) — **รูปแบบที่ EI ต้องการ**
+     ```
+     timestamp,accX,accY,accZ
+     0,0.02,0.98,0.10
+     10,0.05,0.97,0.12
+     ```
+2. เปิด **Serial Monitor** → ทำท่านั้นค้างไว้ ~10 วิ → เลือกข้อความทั้งหมด → copy → เซฟเป็นไฟล์ เช่น `circle.csv` (**1 ท่า = 1 ไฟล์**)
+3. Studio → **Data acquisition** → **Upload data** → เลือกไฟล์ → ตั้ง **Label** (= ชื่อท่า) → Upload
+   - เจอ **CSV wizard**: คอลัมน์ timestamp เป็น ms · ถ้าไฟล์ไม่มี timestamp เลือก *"set frequency"* = `100` Hz
+4. ทำครบทุก class (จำนวนไฟล์ใกล้กัน · สลับคน/ความเร็ว กัน bias)
+
+> 💡 ไม่ต้องแตะ shell/CLI เลย — เก็บจากเครื่องไหนก็ได้ที่เปิด Serial Monitor
+
+#### (ขั้นสูง) live ด้วย data-forwarder
+
+ส่งค่าสดเข้า Studio แทนการ upload ไฟล์ — แต่ต้องลง `edge-impulse-cli` ก่อน (+ `python3 build-essential`; ถ้า compile error ดู [troubleshooting.md](troubleshooting.md) ข้อ 3)
+
+1. รัน [collect-movement-ei](examples/modulino/collect-movement-ei/) (print ตัวเลขล้วน ไม่มี header) → **ปิด Serial Monitor**
+2. shell (`>_`): `edge-impulse-data-forwarder` → ตอบ: project / port (`/dev/ttyACM0`) / **frequency** `100` / **axes** `accX,accY,accZ` / device name
+3. Studio → Data acquisition → ตั้ง Label → Start sampling
+
+> ตั้งค่าผิดอยากเริ่มใหม่: `edge-impulse-data-forwarder --clean` · ไม่เจอ port → เช็กสเก็ตช์ run + ปิด Serial Monitor
 
 ### ✅ Checkpoint สำคัญสุดของข้อนี้
 
@@ -244,7 +258,32 @@ Studio → **Deployment** → **Arduino library** → Build → ได้ `.zip`
 
 ---
 
-## 7. ทดสอบ 10 cases + จดผล
+## 7. ทดสอบกับกล้องสด — Live classification vs runner
+
+ทดสอบ model กับกล้อง/ไมค์ที่ต่อ UNO Q ได้ **2 ที่** ใช้คนละจังหวะ:
+
+| | **Live classification** (ใน Studio) | **`edge-impulse-linux-runner`** (บนบอร์ด) |
+|---|---|---|
+| อยู่ที่ | เมนูซ้ายของ Studio | shell + เว็บ `:4912` |
+| ทำงานแบบ | ถ่ายทีละช็อต แล้วทาย | สด ต่อเนื่อง real-time |
+| ต้องมี | `edge-impulse-linux` connect device ค้างไว้ | รันตรงบนบอร์ด (ดูข้อ 6.1) |
+| เหมาะกับ | ลองทีละรูป เทียบของจริง | ทดสอบ 10 cases + เดโม่ |
+
+**Live classification ทำยังไง:**
+1. shell (`>_`): `edge-impulse-linux` → login → เลือก project → บอร์ดขึ้น **เขียว (Connected)** ใน Devices
+2. Studio → **Live classification** → เลือก **Device = UNO Q**, **Sensor = Camera** → **Start sampling**
+3. ถ่าย 1 รูปจากกล้องจริง → ทาย → เห็นรูป + กรอบ (bounding box) + confidence (เลื่อนดูตาราง **Detected objects** ใต้รูป)
+
+> ⚠️ อย่าเปิด `edge-impulse-linux` กับ `runner` **พร้อมกัน** — แย่งกล้อง/port กัน
+
+**กดแล้ว "ไม่เห็นค่า"? เช็กตามนี้:**
+- **เห็นรูป แต่ไม่มีกรอบ/ค่า** = model **ตรวจไม่เจอ object** (ไม่ใช่ระบบพัง) → ลด slider **threshold**, เอา object เข้าใกล้แบบตอนเก็บ data, หรือข้อมูลน้อยไป เก็บเพิ่ม+เทรนใหม่
+- **ไม่เห็นรูปเลย / ค้าง** = device ไม่เขียว, เลือก sensor ผิด, หรือกล้องไม่ขึ้น (`ls /dev/video*`)
+- อยากดู**ภาพรวม**ว่าโมเดลแม่นแค่ไหน → เมนู **Model testing** (ทดสอบกับ test set ที่เก็บไว้ ไม่ใช่กล้องสด)
+
+---
+
+## 8. ทดสอบ 10 cases + จดผล
 
 จดลง `team-template/afternoon/predictions.csv` ทุกครั้ง:
 
@@ -259,7 +298,7 @@ Studio → **Deployment** → **Arduino library** → Build → ได้ `.zip`
 
 ---
 
-## 8. ถ้าผลไม่ดี → V2 (ถ้าเหลือเวลา)
+## 9. ถ้าผลไม่ดี → V2 (ถ้าเหลือเวลา)
 
 ```
 Feature Explorer ปนกัน?          -> แก้ class definition / เก็บ data เพิ่ม
